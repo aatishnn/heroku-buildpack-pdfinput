@@ -1,5 +1,11 @@
 #!/bin/bash
 BUILD_DIR=$1
+CACHE_DIR=$2
+
+if [ -d "$CACHE_DIR/opt" ]; then
+  cp -r -p "$CACHE_DIR/opt" /app/opt
+  exit 0
+fi   
 
 cd /app && export opt=/app/opt && echo $opt \
   && export {CFLAGS="-I$opt/include",CXXFLAGS="-I$opt/include -Wno-switch -std=c++11",LDFLAGS=-L$opt/lib,PKG_CONFIG_PATH=$opt/lib/pkgconfig,PATH=$PATH:$opt/bin} \
@@ -34,3 +40,5 @@ cd /app && export opt=/app/opt && echo $opt \
 PROFILE_PATH="$BUILD_DIR/.profile.d/pdfinput.sh"
 mkdir -p $(dirname $PROFILE_PATH)
 echo 'export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/app/opt/lib"' >> $PROFILE_PATH
+mkdir -p "$CACHE_DIR"
+cp -r -p /app/opt "$CACHE_DIR/opt"
