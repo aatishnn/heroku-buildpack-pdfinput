@@ -1,4 +1,4 @@
 #!/bin/bash
 
-echo "Geolite"
+echo "PDFINPUT"
 exit 0
