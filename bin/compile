@@ -1,6 +1,7 @@
 #!/bin/bash
 BUILD_DIR=$1
 CACHE_DIR=$2
+BUILDPACK_DIR=$(cd $(dirname $0)/..; pwd)
 
 
 PROFILE_PATH="$BUILD_DIR/.profile.d/pdfinput.sh"
@@ -8,6 +9,10 @@ mkdir -p $(dirname $PROFILE_PATH)
 echo 'export LD_LIBRARY_PATH="/app/opt/lib:$LD_LIBRARY_PATH"' >> $PROFILE_PATH
 echo 'export PKG_CONFIG_PATH="/app/opt/lib/pkgconfig"' >> $PROFILE_PATH
 
+cat <<EOF > $BUILDPACK_DIR/export
+export LD_LIBRARY_PATH="\$LD_LIBRARY_PATH:/app/opt/lib"
+export PKG_CONFIG_PATH="\$PKG_CONFIG_PATH:/app/opt/lib/pkgconfig"
+EOF
 
 if [ -d "$CACHE_DIR/opt" ]; then
   echo "Cache exists, using cache"
