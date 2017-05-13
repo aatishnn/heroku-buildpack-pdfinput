@@ -16,6 +16,8 @@ export LD_LIBRARY_PATH="\$LD_LIBRARY_PATH:$BUILD_DIR/opt/lib"
 export PKG_CONFIG_PATH="\$PKG_CONFIG_PATH:$BUILD_DIR/opt/lib/pkgconfig"
 EOF
 
+cat $BUILDPACK_DIR/export
+
 if [ -d "$CACHE_DIR/opt" ]; then
   echo "Cache exists, using cache"
 
