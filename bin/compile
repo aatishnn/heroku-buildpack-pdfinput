@@ -2,6 +2,11 @@
 BUILD_DIR=$1
 CACHE_DIR=$2
 
+
+PROFILE_PATH="$BUILD_DIR/.profile.d/pdfinput.sh"
+mkdir -p $(dirname $PROFILE_PATH)
+echo 'export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$BUILD_DIR/opt/lib"' >> $PROFILE_PATH
+
 if [ -d "$CACHE_DIR/opt" ]; then
   echo "Cache exists, using cache"
 
@@ -39,8 +44,5 @@ cd "$BUILD_DIR" && export opt="$BUILD_DIR/opt" && echo $opt \
   && make install && cd .. && rm -rf poppler-*
 
 
-PROFILE_PATH="$BUILD_DIR/.profile.d/pdfinput.sh"
-mkdir -p $(dirname $PROFILE_PATH)
-echo 'export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$BUILD_DIR/opt/lib"' >> $PROFILE_PATH
 mkdir -p "$CACHE_DIR"
 cp -r -p "$BUILD_DIR/opt" "$CACHE_DIR/opt"
