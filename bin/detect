@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "Geolite"
+exit 0
