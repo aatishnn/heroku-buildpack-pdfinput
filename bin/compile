@@ -2,6 +2,7 @@
 BUILD_DIR=$1
 CACHE_DIR=$2
 BUILDPACK_DIR=$(cd $(dirname $0)/..; pwd)
+echo $BUILDPACK_DIR
 
 
 PROFILE_PATH="$BUILD_DIR/.profile.d/pdfinput.sh"
