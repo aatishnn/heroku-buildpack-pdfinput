@@ -11,49 +11,21 @@ echo 'export LD_LIBRARY_PATH="/app/opt/lib:$LD_LIBRARY_PATH"' >> $PROFILE_PATH
 echo 'export PKG_CONFIG_PATH="/app/opt/lib/pkgconfig"' >> $PROFILE_PATH
 
 cat <<EOF > $BUILDPACK_DIR/export
-export CPPFLAGS="-I$CACHE_DIR/opt/include -I-I$CACHE_DIR/opt/include"
-export LD_LIBRARY_PATH="\$LD_LIBRARY_PATH:$CACHE_DIR/opt/lib"
-export PKG_CONFIG_PATH="\$PKG_CONFIG_PATH:$CACHE_DIR/opt/lib/pkgconfig"
+export CPPFLAGS="-I$BUILD_DIR/opt/include"
+export LD_LIBRARY_PATH="\$LD_LIBRARY_PATH:$BUILD_DIR/opt/lib"
+export PKG_CONFIG_PATH="\$PKG_CONFIG_PATH:$BUILD_DIR/opt/lib/pkgconfig"
 EOF
 
-cat $BUILDPACK_DIR/export
 
 if [ -d "$CACHE_DIR/opt" ]; then
   echo "Cache exists, using cache"
-
-  cp -r -p "$CACHE_DIR/opt" "$BUILD_DIR/opt"
+  cp -r -p "$CACHE_DIR/pdfinput-master/opt" "$BUILD_DIR/opt"
   exit 0
 fi   
-mkdir -p "$CACHE_DIR/opt"
-cd "$CACHE_DIR" && export opt="$CACHE_DIR/opt" && echo $opt \
-  && export {CFLAGS="-I$opt/include",CXXFLAGS="-I$opt/include -Wno-switch -std=c++11",LDFLAGS=-L$opt/lib,PKG_CONFIG_PATH=$opt/lib/pkgconfig,PATH=$PATH:$opt/bin} \
-  && wget https://download.qt.io/official_releases/qt/5.7/5.7.1/single/qt-everywhere-opensource-src-5.7.1.tar.xz \
-  && tar xvf qt-everywhere-opensource-src-5.7.1.tar.xz \
-  && cd qt-everywhere-opensource-src-5.7.1 \
-  && ./configure -prefix $opt -c++std c++11 \
-    -opensource -confirm-license -release -accessibility \
-    -qt-zlib -qt-libpng -qt-libjpeg -qt-xcb -qt-pcre \
-    -no-glib -no-cups -no-sql-sqlite -no-qml-debug -no-opengl -no-egl -no-largefile \
-    -no-xinput2 -no-sm -no-icu -nomake examples -nomake tests \
-    -skip qtactiveqt -skip qtlocation -skip qtmultimedia -skip qtserialport \
-    -skip qtquickcontrols -skip qtscript -skip qtsensors -skip qtwebsockets \
-    -skip qtxmlpatterns -skip qt3d -skip qtvirtualkeyboard \
-  && make -j4 \
-  && make install && cd .. && rm -rf qt-*
-
-cd "$CACHE_DIR" && export opt="$CACHE_DIR/opt" && echo $opt \
-  && export {CFLAGS="-I$opt/include -Wno-return-type",CXXFLAGS="-I$opt/include -Wno-return-type -std=c++11",LDFLAGS=-L$opt/lib,PKG_CONFIG_PATH=$opt/lib/pkgconfig,PATH=$PATH:$opt/bin} \
-  && wget https://poppler.freedesktop.org/poppler-0.51.0.tar.xz \
-  && tar xvf poppler-0.51.0.tar.xz && cd poppler-0.51.0 \
-  && ./configure \
-    --prefix=$opt \
-    --enable-build-type=release \
-    --disable-poppler-qt4 \
-    --disable-poppler-cpp \
-    --disable-static \
-  && make -j4 \
-  && make install && cd .. && rm -rf poppler-*
-
 
 mkdir -p "$CACHE_DIR"
-cp -r -p "$CACHE_DIR/opt" "$CACHE_DIR/opt"
+cd "$CACHE_DIR"
+wget https://github.com/reqshark/pdfinput/archive/master.zip && \
+jar xf master.zip
+
+cp -r -p "$CACHE_DIR/pdfinput-master/opt" "$BUILD_DIR/opt"
