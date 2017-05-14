@@ -14,6 +14,8 @@ cat <<EOF > $BUILDPACK_DIR/export
 export CPPFLAGS="-I/app/opt/include"
 export LD_LIBRARY_PATH="\$LD_LIBRARY_PATH:/app/opt/lib"
 export PKG_CONFIG_PATH="\$PKG_CONFIG_PATH:/app/opt/lib/pkgconfig"
+echo "Exported file called"
+printenv
 EOF
 
 
