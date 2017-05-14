@@ -13,7 +13,7 @@ echo 'export PKG_CONFIG_PATH="/app/opt/lib/pkgconfig"' >> $PROFILE_PATH
 cat <<EOF > $BUILDPACK_DIR/export
 export CPPFLAGS="-I$BUILD_DIR/opt/include"
 export LD_LIBRARY_PATH="$BUILD_DIR/opt/lib:\$LD_LIBRARY_PATH"
-export PKG_CONFIG_PATH="$BUILD_DIR/lib/pkgconfig:\$PKG_CONFIG_PATH"
+export PKG_CONFIG_PATH="$BUILD_DIR/opt/lib/pkgconfig:\$PKG_CONFIG_PATH"
 printenv
 EOF
 
