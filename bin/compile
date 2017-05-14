@@ -11,7 +11,8 @@ echo 'export LD_LIBRARY_PATH="/app/opt/lib:$LD_LIBRARY_PATH"' >> $PROFILE_PATH
 echo 'export PKG_CONFIG_PATH="/app/opt/lib/pkgconfig"' >> $PROFILE_PATH
 
 cat <<EOF > $BUILDPACK_DIR/export
-export CXXFLAGS="-I$BUILD_DIR/opt/include -I$BUILD_DIR/opt/include/QtCore -I$BUILD_DIR/opt/include/poppler -I$BUILD_DIR/opt/include/poppler/qt5"
+export CXXFLAGS="-I$BUILD_DIR/opt/include -I$BUILD_DIR/opt/include/QtCore -I$BUILD_DIR/opt/include/poppler -I$BUILD_DIR/opt/include/poppler/qt5 -L$BUILD_DIR/opt/lib"
+export LD_LIBRARY_PATH="$BUILD_DIR/opt/lib:\$LD_LIBRARY_PATH"
 export LD_LIBRARY_PATH="$BUILD_DIR/opt/lib:\$LD_LIBRARY_PATH"
 export PKG_CONFIG_PATH="$BUILD_DIR/opt/lib/pkgconfig:\$PKG_CONFIG_PATH"
 printenv
