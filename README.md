@@ -4,7 +4,7 @@ heroku-buildpack-pdfinput
 Heroku Buildpack that that permits use of [pdf-fill-form >= 3](https://github.com/tpisto/pdf-fill-form). It does the following:
 
 * Downloads libraries and header files from https://github.com/reqshark/pdfinput
-* Sets appropriate CXXFLAGS and LDFLAGS
+* Sets appropriate CXXFLAGS and LDFLAGS for NodeJS buildpack to use.
 
 Special thanks to @bdbau for suggesting the [pdfinput repo](https://github.com/reqshark/pdfinput) and the `pdfinput` repo itself.
 
